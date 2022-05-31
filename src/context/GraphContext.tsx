@@ -50,6 +50,8 @@ interface GraphContextInterface {
     followingList: SocialConnection[];
     setShowMutualConnections: Dispatch<SetStateAction<boolean>>;
     showMutualConnections: boolean;
+    setShowXMTPConnects: Dispatch<SetStateAction<boolean>>;
+    showXMTPConnects: boolean;
 }
 
 export const GraphContext = createContext<GraphContextInterface>({
@@ -62,6 +64,8 @@ export const GraphContext = createContext<GraphContextInterface>({
     setShowMutualConnections: async () => undefined, //set show mutual connections function
     refetch: async () => undefined, //refetch the graph data
     showMutualConnections: false, //show mutual connections
+    setShowXMTPConnects: async () => undefined, //set show mutual connections function
+    showXMTPConnects: false,
 });
 
 export const GraphContextProvider: React.FC<{ children: any }> = ({
@@ -86,6 +90,7 @@ export const GraphContextProvider: React.FC<{ children: any }> = ({
     }).data;
 
     const [showMutualConnections, setShowMutualConnections] = useState(false);
+    const [showXMTPConnects, setShowXMTPConnects] = useState(false);
 
     useEffect(() => {
         if (identityData) {
@@ -150,7 +155,7 @@ export const GraphContextProvider: React.FC<{ children: any }> = ({
 
     const refetch = () => {
         fetch3Fs(address);
-    }
+    };
 
     useEffect(() => {
         if (address) {
@@ -172,6 +177,8 @@ export const GraphContextProvider: React.FC<{ children: any }> = ({
                 followingList,
                 showMutualConnections,
                 setShowMutualConnections,
+                setShowXMTPConnects,
+                showXMTPConnects,
             }}
         >
             {children}
