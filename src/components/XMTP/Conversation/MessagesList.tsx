@@ -1,3 +1,4 @@
+import { Flex, Stack, Text } from "@chakra-ui/react";
 import { Message } from "@xmtp/xmtp-js";
 import React, { MutableRefObject } from "react";
 import Emoji from "react-emoji-render";
@@ -28,27 +29,27 @@ const formatDate = (d?: Date) =>
     });
 
 const MessageTile = ({ message, isSender }: MessageTileProps): JSX.Element => (
-    <div className="flex items-start mx-auto mb-4">
+    <Stack direction="row" p={3}>
         <Avatar peerAddress={message.senderAddress as string} />
-        <div className="ml-2">
-            <div>
+        <Flex ml={3} grow={1} direction="column">
+            <Stack direction={"row"} justifyContent="space-between">
                 <AddressPill
                     address={message.senderAddress as string}
                     userIsSender={isSender}
                 />
-                <span className="text-sm font-normal place-self-end text-n-300 text-md uppercase">
+                <Text fontSize="sm" color={"grey.500"}>
                     {formatTime(message.sent)}
-                </span>
-            </div>
-            <span className="block text-md px-2 mt-2 text-black font-normal">
+                </Text>
+            </Stack>
+            <Text>
                 {message.error ? (
                     `Error: ${message.error?.message}`
                 ) : (
                     <Emoji text={message.content || ""} />
                 )}
-            </span>
-        </div>
-    </div>
+            </Text>
+        </Flex>
+    </Stack>
 );
 
 function DateDividerBorder({ children }: { children: any }) {
@@ -87,43 +88,27 @@ const MessagesList = ({
     let lastMessageDate: Date | undefined;
 
     return (
-        <div className="flex-grow flex">
-            <div className="pb-6 md:pb-0 w-full flex flex-col self-end">
-                <div className="relative w-full bg-white px-4 pt-6 overflow-y-auto flex">
-                    <div className="w-full">
-                        {messages && messages.length ? (
-                            <ConversationBeginningNotice />
-                        ) : null}
-                        {messages?.map((msg: Message) => {
-                            const isSender =
-                                msg.senderAddress === walletAddress;
-                            const tile = (
-                                <MessageTile
-                                    message={msg}
-                                    key={msg.id}
-                                    isSender={isSender}
-                                />
-                            );
-                            const dateHasChanged = !isOnSameDay(
-                                lastMessageDate,
-                                msg.sent
-                            );
-                            lastMessageDate = msg.sent;
-                            return dateHasChanged
-                                ? [
-                                      <DateDivider
-                                          date={msg.sent}
-                                          key={msg.id}
-                                      />,
-                                      tile,
-                                  ]
-                                : tile;
-                        })}
-                        <div ref={messagesEndRef} />
-                    </div>
-                </div>
-            </div>
-        </div>
+        <Stack w={"100%"}>
+            {messages && messages.length ? (
+                <ConversationBeginningNotice />
+            ) : null}
+            {messages?.map((msg: Message) => {
+                const isSender = msg.senderAddress === walletAddress;
+                const tile = (
+                    <MessageTile
+                        message={msg}
+                        key={msg.id}
+                        isSender={isSender}
+                    />
+                );
+                const dateHasChanged = !isOnSameDay(lastMessageDate, msg.sent);
+                lastMessageDate = msg.sent;
+                return dateHasChanged
+                    ? [<DateDivider date={msg.sent} key={msg.id} />, tile]
+                    : tile;
+            })}
+            <div ref={messagesEndRef} />
+        </Stack>
     );
 };
 export default MessagesList;

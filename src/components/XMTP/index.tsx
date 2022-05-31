@@ -1,3 +1,4 @@
+import { Stack } from "@chakra-ui/react";
 import { useCallback, useRef } from "react";
 import useConversation from "../../hooks/useConversation";
 import useXmtp from "../../hooks/useXmtp";
@@ -20,7 +21,7 @@ const Conversation = ({
         recipientWalletAddr,
         scrollToMessagesEndRef
     );
-        console.log(walletAddress, client, "q   wqeqwe", recipientWalletAddr)
+    
     if (!recipientWalletAddr || !walletAddress || !client) {
         return <div />;
     }
@@ -35,14 +36,16 @@ const Conversation = ({
     }
 
     return (
-        <main className="flex flex-col flex-1 bg-white h-screen">
-            <MessagesList
-                messagesEndRef={messagesEndRef}
-                messages={messages}
-                walletAddress={walletAddress}
-            />
+        <>
+            <Stack w={"100%"} h={"340px"} overflow={"scroll"}>
+                <MessagesList
+                    messagesEndRef={messagesEndRef}
+                    messages={messages}
+                    walletAddress={walletAddress}
+                />
+            </Stack>
             {walletAddress && <MessageComposer onSend={sendMessage} />}
-        </main>
+        </>
     );
 };
 
