@@ -6,6 +6,10 @@ import { Web3ContextProvider } from "./context/web3Context";
 import client from "./graphql/client";
 
 const theme = extendTheme({
+    config: {
+        initialColorMode: 'dark',
+        useSystemColorMode: false,
+    },
     components: {
       Modal: {
         baseStyle: () => ({
