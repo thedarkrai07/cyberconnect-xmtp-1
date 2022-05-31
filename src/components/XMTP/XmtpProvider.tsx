@@ -26,6 +26,13 @@ export function XmtpProvider({ children }:{ children:any }) {
     []
   )
 
+  const checkIfOnNetwork = useCallback(
+    async (address: string): Promise<boolean> => {
+      return client?.canMessage(address) || false
+    },
+    [client]
+  )
+
   const connect = useCallback(
     async (wallet: Signer) => {
       setWallet(wallet)
@@ -88,6 +95,7 @@ export function XmtpProvider({ children }:{ children:any }) {
     dispatchMessages,
     connect,
     disconnect,
+    checkIfOnNetwork,
   })
 
   useEffect(() => {
@@ -101,6 +109,7 @@ export function XmtpProvider({ children }:{ children:any }) {
       dispatchMessages,
       connect,
       disconnect,
+      checkIfOnNetwork
     })
   }, [
     wallet,
@@ -112,6 +121,7 @@ export function XmtpProvider({ children }:{ children:any }) {
     dispatchMessages,
     connect,
     disconnect,
+    checkIfOnNetwork
   ])
 
   return (

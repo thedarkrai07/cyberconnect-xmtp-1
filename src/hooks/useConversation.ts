@@ -12,12 +12,18 @@ const useConversation = (
   const [conversation, setConversation] = useState<Conversation | null>(null)
   const [stream, setStream] = useState<Stream<Message>>()
   const [loading, setLoading] = useState<boolean>(false)
+  const [error, setError] = useState<Error | null>(null);
+
   useEffect(() => {
     const getConvo = async () => {
       if (!client) {
         return
       }
-      setConversation(await client.conversations.newConversation(peerAddress))
+      try {
+        setConversation(await client.conversations.newConversation(peerAddress))
+      } catch (e) {
+        setError(e as Error);
+      }
     }
     getConvo()
   }, [client, peerAddress])
@@ -85,6 +91,7 @@ const useConversation = (
     conversation,
     loading,
     messages: getMessages(peerAddress),
+    error,
     sendMessage: handleSend,
   }
 }

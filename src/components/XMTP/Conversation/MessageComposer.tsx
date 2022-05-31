@@ -5,9 +5,13 @@ import messageComposerStyles from "../../../styles/MessageComposer.module.scss";
 
 type MessageComposerProps = {
     onSend: (msg: string) => Promise<void>;
+    error: Error | null;
 };
 
-const MessageComposer = ({ onSend }: MessageComposerProps): JSX.Element => {
+const MessageComposer = ({
+    onSend,
+    error,
+}: MessageComposerProps): JSX.Element => {
     const [message, setMessage] = useState("");
 
     const onMessageChange = useCallback(
@@ -39,7 +43,7 @@ const MessageComposer = ({ onSend }: MessageComposerProps): JSX.Element => {
             >
                 <input
                     type="text"
-                    placeholder="Type something..."
+                    placeholder={error ? "Error :(" : "Type something..."}
                     className={classNames(
                         "block",
                         "w-full",
@@ -48,12 +52,17 @@ const MessageComposer = ({ onSend }: MessageComposerProps): JSX.Element => {
                         messageComposerStyles.input
                     )}
                     name="message"
-                    value={message}
+                    value={error ? "" : message}
                     onChange={onMessageChange}
                     required
                     style={{ flexGrow: 1 }}
+                    disabled={error !== null}
                 />
-                <button type="submit" className={messageComposerStyles.arrow}>
+                <button
+                    type="submit"
+                    className={messageComposerStyles.arrow}
+                    disabled={error !== null}
+                >
                     <IoMdSend color={message ? "green" : "grey"} />
                 </button>
             </form>

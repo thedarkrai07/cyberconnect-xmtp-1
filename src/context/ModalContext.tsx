@@ -30,7 +30,7 @@ export const ModalContextProvider: React.FC<{
     const [isSearchLoading, setIsSearchLoading] = useState<boolean>(false);
     const [searchResults, setSearchResults] = useState<any[]>([]);
     const [searchAddress, setSearchAddress] = useState<string>("");
-    
+
     const { fetchMore: fetchMoreRecommendation } = useQuery(
         GET_RECOMMENDATION,
         {
@@ -40,13 +40,14 @@ export const ModalContextProvider: React.FC<{
         }
     );
 
-    const { data: identityData, loading: isIdentityLoading } = useQuery(GET_IDENTITY, {
-        variables: {
-            address: searchAddress,
-        },
-    });
-
-    console.log(setSearchAddress, identityData, "asdasdsad");
+    const { data: identityData, loading: isIdentityLoading } = useQuery(
+        GET_IDENTITY,
+        {
+            variables: {
+                address: searchAddress,
+            },
+        }
+    );
 
     const fetchRecommendations = useCallback(async () => {
         setIsSearchLoading(true);
@@ -58,10 +59,9 @@ export const ModalContextProvider: React.FC<{
         });
         const recommendationList = (recommendationData as AllRecommendations)
             .recommendations.data?.list;
-            
-        if (!recommendationList) {
-            return { nodes: [], links: [] };
-        }
+
+        if (!recommendationList) return;
+
         setSearchResults(recommendationList);
         setIsSearchLoading(false);
     }, [fetchMoreRecommendation, userAddress]);

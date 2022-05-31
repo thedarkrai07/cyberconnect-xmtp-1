@@ -44,10 +44,10 @@ interface GraphContextInterface {
     graphAddress: string; //the address which generate the 3d graph based on it
     graphLoading: boolean; //graph loading status
     identity: Identity | null; //user indentity info including the ens, avatar, twitter etc.
-    
-    followerList: SocialConnection[],
-    friendList: SocialConnection[],
-    followingList: SocialConnection[],
+    refetch: () => void; //refetch the graph data
+    followerList: SocialConnection[];
+    friendList: SocialConnection[];
+    followingList: SocialConnection[];
     setShowMutualConnections: Dispatch<SetStateAction<boolean>>;
     showMutualConnections: boolean;
 }
@@ -60,9 +60,9 @@ export const GraphContext = createContext<GraphContextInterface>({
     followingList: [],
     friendList: [],
     setShowMutualConnections: async () => undefined, //set show mutual connections function
+    refetch: async () => undefined, //refetch the graph data
     showMutualConnections: false, //show mutual connections
 });
-
 
 export const GraphContextProvider: React.FC<{ children: any }> = ({
     children,
@@ -70,10 +70,8 @@ export const GraphContextProvider: React.FC<{ children: any }> = ({
     const { address } = useWeb3();
 
     // Cyberlab.eth default address
-    const [graphAddress, setGraphAddress] = useState<string>(
-        ""
-    );
-    
+    const [graphAddress, setGraphAddress] = useState<string>("");
+
     const [graphLoading, setGraphLoading] = useState<boolean>(false);
     const [identity, setIdentity] = useState<Identity | null>(null);
 
@@ -87,7 +85,7 @@ export const GraphContextProvider: React.FC<{ children: any }> = ({
         },
     }).data;
 
-    const [showMutualConnections, setShowMutualConnections] = useState(false);  
+    const [showMutualConnections, setShowMutualConnections] = useState(false);
 
     useEffect(() => {
         if (identityData) {
@@ -95,7 +93,7 @@ export const GraphContextProvider: React.FC<{ children: any }> = ({
         }
     }, [identityData]);
 
-    const { fetchMore, data } = useQuery(GET_ADDR_CONNECTION_QUERY, {
+    const { fetchMore } = useQuery(GET_ADDR_CONNECTION_QUERY, {
         variables: {
             address: graphAddress,
             first: 50,
@@ -103,8 +101,6 @@ export const GraphContextProvider: React.FC<{ children: any }> = ({
             namespace: "",
         },
     });
-
-    console.log(data, 'qweqweqwe')
 
     // Fetch friends, followings, followers
     const fetch3Fs = useCallback(
@@ -133,8 +129,7 @@ export const GraphContextProvider: React.FC<{ children: any }> = ({
                         return fetchMoreResult;
                     },
                 });
-                console.log(data.identity, "asaddsad", hasNextPage)
-                
+
                 // Process Followers
                 followerList = (data as AllSocialConnections).identity.followers
                     .list;
@@ -153,6 +148,10 @@ export const GraphContextProvider: React.FC<{ children: any }> = ({
         [fetchMore]
     );
 
+    const refetch = () => {
+        fetch3Fs(address);
+    }
+
     useEffect(() => {
         if (address) {
             setGraphAddress(address);
@@ -166,6 +165,7 @@ export const GraphContextProvider: React.FC<{ children: any }> = ({
                 // values
                 graphAddress,
                 graphLoading,
+                refetch,
                 identity,
                 friendList,
                 followerList,
