@@ -2,6 +2,7 @@ import CyberConnect from "@cyberlab/cyberconnect";
 import { ethers } from "ethers";
 import React, { useCallback, useContext, useState } from "react";
 import Web3Modal from "web3modal";
+import useWallet from "../hooks/useWallet";
 
 interface Web3ContextInterface {
     connectWallet: () => Promise<void>;
@@ -27,7 +28,12 @@ export const Web3ContextProvider: React.FC<{ children: any }> = ({
     const [address, setAddress] = useState<string>("");
     const [ens, setEns] = useState<string | null>("");
     const [cyberConnect, setCyberConnect] = useState<CyberConnect | null>(null);
-
+    const {
+        signer,
+        connect: connectWalletXMTP,
+        disconnect: disconnectWalletXMTP,
+      } = useWallet();
+      
     const initCyberConnect = useCallback((provider: any) => {
         const cyberConnect = new CyberConnect({
             provider,
@@ -53,16 +59,19 @@ export const Web3ContextProvider: React.FC<{ children: any }> = ({
         const address = await signer.getAddress();
         // get the ens which user address associated with
         const ens = await getEnsByAddress(provider, address);
-
+        await connectWalletXMTP();
         setAddress(address);
         setEns(ens);
         initCyberConnect(provider.provider);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [initCyberConnect]);
 
     const disconnectWallet = useCallback(async () => {
+        disconnectWalletXMTP();
         setAddress("");
         setEns("");
         setCyberConnect(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // the function to get users' address from their ens
