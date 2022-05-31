@@ -20,7 +20,7 @@ const Conversation = ({
         recipientWalletAddr,
         scrollToMessagesEndRef
     );
-
+        console.log(walletAddress, client, "q   wqeqwe", recipientWalletAddr)
     if (!recipientWalletAddr || !walletAddress || !client) {
         return <div />;
     }
