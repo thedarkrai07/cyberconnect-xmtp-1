@@ -9,6 +9,7 @@ const cachedResolveName = new Map<string, string | undefined>();
 
 interface Web3ContextInterface {
     connectWallet: () => Promise<void>;
+    provider: ethers.providers.Web3Provider | undefined;
     disconnectWallet: () => void;
     address: string;
     ens: string | null;
@@ -20,6 +21,7 @@ interface Web3ContextInterface {
 // create Context to pass data to different components
 export const Web3Context = React.createContext<Web3ContextInterface>({
     connectWallet: async () => undefined, //connect wallet function
+    provider: {} as ethers.providers.Web3Provider , //provider
     address: "", // user's signed in address
     ens: "", //user's signed in ens
     cyberConnect: null, //to interact with cyberconnect, e.g. follow/unfollow a address, optional here since we didn't add follow/unfollow button
@@ -130,6 +132,7 @@ export const Web3ContextProvider: React.FC<{ children: any }> = ({
                 getAddressByEns,
                 resolveName,
                 lookupAddress,
+                provider
             }}
         >
             {children}

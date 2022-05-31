@@ -30,7 +30,7 @@ export const ModalContextProvider: React.FC<{
     const [isSearchLoading, setIsSearchLoading] = useState<boolean>(false);
     const [searchResults, setSearchResults] = useState<any[]>([]);
     const [searchAddress, setSearchAddress] = useState<string>("");
-
+    
     const { fetchMore: fetchMoreRecommendation } = useQuery(
         GET_RECOMMENDATION,
         {
@@ -45,6 +45,8 @@ export const ModalContextProvider: React.FC<{
             address: searchAddress,
         },
     });
+
+    console.log(setSearchAddress, identityData, "asdasdsad");
 
     const fetchRecommendations = useCallback(async () => {
         setIsSearchLoading(true);

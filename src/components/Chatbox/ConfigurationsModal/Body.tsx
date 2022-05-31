@@ -6,9 +6,13 @@ import Member from "../../Member";
 const Body = () => {
     const { searchResults } = useModalState();
     return (
-        <ModalBody p="0"> 
+        <ModalBody p="0">
             {searchResults.map((m) => (
-                <Member key={m.address} connection={m} showConnectButton={true}/>
+                <Member
+                    key={m.address}
+                    connection={m}
+                    showConnectButton={true}
+                />
             ))}
         </ModalBody>
     );

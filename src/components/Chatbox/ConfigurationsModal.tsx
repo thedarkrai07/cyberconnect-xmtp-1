@@ -16,24 +16,28 @@ const ConfigurationsModal = () => {
     const { graphAddress } = useGraph();
 
     return (
-        <Modal
-            onClose={() => setShowModal(false)}
-            isOpen={showModal}
-            isCentered
-            closeOnOverlayClick={false}
-            size="2xl"
-            scrollBehavior="inside"
-        >
-            <ModalOverlay backdropFilter="auto" backdropBlur="2px" />
-            <ModalContent>
-                <Header />
-                <ModalCloseButton />
-                <ModalContextProvider userAddress={graphAddress}>
-                    <Body />
-                </ModalContextProvider>
-                <Footer/>
-            </ModalContent>
-        </Modal>
+        <>
+            {showModal && (
+                <Modal
+                    onClose={() => setShowModal(false)}
+                    isOpen={showModal}
+                    isCentered
+                    closeOnOverlayClick={false}
+                    size="2xl"
+                    scrollBehavior="inside"
+                >
+                    <ModalOverlay backdropFilter="auto" backdropBlur="2px" />
+                    <ModalContextProvider userAddress={graphAddress}>
+                        <ModalContent>
+                            <Header />
+                            <ModalCloseButton />
+                            <Body />
+                            <Footer />
+                        </ModalContent>
+                    </ModalContextProvider>
+                </Modal>
+            )}
+        </>
     );
 };
 

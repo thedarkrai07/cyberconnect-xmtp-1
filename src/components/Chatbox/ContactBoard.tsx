@@ -18,7 +18,7 @@ const ContactBoard: React.FC<Props> = () => {
     if (!isOpen) return <></>;
 
     return (
-        <Stack height={"400px"} align="center" justifyContent={"center"}>
+        <Stack height={"400px"} align="center" justifyContent={"center"} bg="gray.900">
             {!graphAddress && <WalletConnectButton/>}
             {graphLoading && <LoadingScreen/>}
             {graphAddress && !graphLoading && !followingList.length && <EmptyScreen/>}

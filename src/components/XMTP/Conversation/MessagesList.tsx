@@ -73,7 +73,10 @@ const DateDivider = ({ date }: { date?: Date }): JSX.Element => (
 );
 
 const ConversationBeginningNotice = (): JSX.Element => (
-    <div className="flex align-items-center justify-center pb-4">
+    <div
+        className="flex align-items-center justify-center pb-4"
+        style={{ textAlign: "center" }}
+    >
         <span className="text-gray-300 text-sm font-semibold">
             This is the beginning of the conversation
         </span>
@@ -88,7 +91,7 @@ const MessagesList = ({
     let lastMessageDate: Date | undefined;
 
     return (
-        <Stack w={"100%"}>
+        <Stack w={"100%"} p={2}>
             {messages && messages.length ? (
                 <ConversationBeginningNotice />
             ) : null}

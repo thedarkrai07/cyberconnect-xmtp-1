@@ -19,8 +19,7 @@ const SearchFilter = () => {
             setError('Invalid address');
             return;
         }
-        await setSearchAddress(address);
-        
+        setSearchAddress(address);
     }
     return (
         <>

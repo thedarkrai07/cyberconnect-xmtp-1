@@ -7,12 +7,10 @@ export const GET_ADDR_CONNECTION_QUERY = gql`
         $address: String!
         $first: Int
         $after: String
-        $namespace: String
     ) {
         identity(address: $address, network: ETH) {
             avatar
             followings(
-                namespace: $namespace
                 type: FOLLOW
                 first: $first
                 after: $after
@@ -27,7 +25,6 @@ export const GET_ADDR_CONNECTION_QUERY = gql`
                 }
             }
             followers(
-                namespace: $namespace
                 type: FOLLOW
                 first: $first
                 after: $after
@@ -42,7 +39,6 @@ export const GET_ADDR_CONNECTION_QUERY = gql`
                 }
             }
             friends(
-                namespace: $namespace
                 type: FOLLOW
                 first: $first
                 after: $after
