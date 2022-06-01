@@ -8,11 +8,10 @@ import ContactBoard from "./ContactBoard";
 import ContactNavbar from "./ContactNavbar";
 
 export const Chatbox: React.FC = () => {
-    const { connectWallet, disconnectWallet } = useWeb3();
+    const { disconnectWallet } = useWeb3();
 
     useEffect(() => {
-        window.ethereum.on("accountsChanged", connectWallet);
-        window.ethereum.on("disconnect", disconnectWallet);
+        // window.ethereum.on("accountsChanged", disconnectWallet);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 

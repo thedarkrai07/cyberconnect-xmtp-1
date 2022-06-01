@@ -6,6 +6,7 @@ import {
 } from "@cyberconnect/react-follow-button";
 import { useNavStates } from "../../context/ChatContext";
 import { useGraph } from "../../context/GraphContext";
+import useXmtpStatus from "../../hooks/useXMTPStatus";
 import { SocialConnection } from "../../types/AllSocialConnections";
 import formatAddress from "../../utils/formatAddress";
 import styles from "./index.module.css";
@@ -21,6 +22,7 @@ const Member = ({
 }) => {
     const toast = useToast();
     const { setShowModal, setConversationWith } = useNavStates();
+    const { loading, results } = useXmtpStatus(connection.address);
     const { refetch } = useGraph();
     return (
         <Stack
@@ -29,7 +31,9 @@ const Member = ({
             py={3}
             px={5}
             className={styles.member}
-            onClick={() => !showConnectButton && setConversationWith(connection)}
+            onClick={() =>
+                !showConnectButton && setConversationWith(connection)
+            }
         >
             <Image
                 src={connection.avatar || defaultImgURL}
@@ -60,10 +64,16 @@ const Member = ({
                     >
                         NFTs
                     </Link>
+                    {!results && !loading && (
+                        <Text fontSize={"sm"} color="gray.500">
+                            {" "}
+                            Not on XMTP
+                        </Text>
+                    )}
                 </Stack>
             </Stack>
             <Spacer />
-            {showConnectButton && (
+            {showConnectButton && !loading && (
                 <FollowButton
                     provider={window.ethereum}
                     namespace="CyberConnect"

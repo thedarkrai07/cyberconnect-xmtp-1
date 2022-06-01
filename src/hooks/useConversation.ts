@@ -22,6 +22,7 @@ const useConversation = (
       try {
         setConversation(await client.conversations.newConversation(peerAddress))
       } catch (e) {
+        console.error(e)
         setError(e as Error);
       }
     }

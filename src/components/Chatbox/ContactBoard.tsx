@@ -2,6 +2,7 @@ import { Spacer, Stack } from "@chakra-ui/react";
 import { useNavStates } from "../../context/ChatContext";
 import { useGraph } from "../../context/GraphContext";
 import useXmtp from "../../hooks/useXmtp";
+import { SocialConnection } from "../../types/AllSocialConnections";
 import conversationsToConnection from "../../utils/conversationsToConnections";
 import Member from "../Member";
 import { WalletConnectButton } from "../WalletConnectButton";
@@ -22,12 +23,18 @@ const ContactBoard: React.FC<Props> = () => {
         friendList,
         showMutualConnections,
         showXMTPConnects,
+        followerList,
     } = useGraph();
+
+    const friendArrList = friendList.map(m =>  m.address );
+    const followingArrList = followingList.map(m =>  m.address );
+    console.log("Your followers:", followerList);
     const connections = showXMTPConnects
         ? conversationsToConnection(conversations)
         : showMutualConnections
-        ? friendList
-        : followingList;
+        ? conversationsToConnection(conversations).filter((c) => friendArrList.includes(c.address.toLocaleLowerCase()))
+        : conversationsToConnection(conversations).filter((c) => followingArrList.includes(c.address.toLocaleLowerCase()));
+
     const justifyContent =
         !conversationWith.address && connections.length > 0
             ? "flex-start"
@@ -50,7 +57,7 @@ const ContactBoard: React.FC<Props> = () => {
             )}
             {!conversationWith.address &&
                 connections.map((m) => (
-                    <Member connection={m} key={m.address} />
+                    <Member connection={m as SocialConnection} key={m.address} />
                 ))}
             {conversationWith.address && (
                 <Conversation recipientWalletAddr={conversationWith.address} />
