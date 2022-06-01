@@ -83,7 +83,10 @@ const Member = ({
                     key={connection.address}
                     onSuccess={() => {
                         refetch();
-                        setConversationWith(connection);
+                        setConversationWith({
+                            ...connection,
+                            address: connection.address,
+                        });
                         setShowModal(false);
                     }}
                     onFailure={(e) => {

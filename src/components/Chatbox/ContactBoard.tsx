@@ -1,4 +1,5 @@
 import { Spacer, Stack } from "@chakra-ui/react";
+import { getAddress } from "ethers/lib/utils";
 import { useNavStates } from "../../context/ChatContext";
 import { useGraph } from "../../context/GraphContext";
 import useXmtp from "../../hooks/useXmtp";
@@ -60,7 +61,7 @@ const ContactBoard: React.FC<Props> = () => {
                     <Member connection={m as SocialConnection} key={m.address} />
                 ))}
             {conversationWith.address && (
-                <Conversation recipientWalletAddr={conversationWith.address} />
+                <Conversation recipientWalletAddr={getAddress(conversationWith.address)} />
             )}
             {graphAddress && !graphLoading && followingList.length && (
                 <Spacer />

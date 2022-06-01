@@ -1,3 +1,24 @@
+# Informations:
+
+Video: [video](https://www.loom.com/share/b98304ed859644d89cb51df88eb7155e)
+Site: [deployed site](https://cyberconnect-xmtp-1.vercel.app/)
+
+
+# TODOs:
+1. Improve UI (like scroll)
+2. Convert the app to NPM package and script
+3. Ability to customize theme of the widget
+4. Handle messages from followers
+   
+# Installation:
+Add the following to your .env file
+```
+NEXT_PUBLIC_MORALIS_SERVER_URL = 
+NEXT_PUBLIC_MORALIS_APP_ID =
+```
+
+Next, run `yarn run dev`. This will start the server and open the browser.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

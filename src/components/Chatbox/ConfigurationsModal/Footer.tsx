@@ -20,7 +20,7 @@ const Footer = () => {
                         isChecked={showXMTPConnects}
                         onChange={(e) => setShowXMTPConnects(e.target.checked)}
                     />
-                    <Text>Disable CyberConnect</Text>{" "}
+                    <Text>Disable CyberConnect</Text>
                 </Stack>
                 <Spacer />
                 {!showXMTPConnects && <Stack direction={"row"}>
