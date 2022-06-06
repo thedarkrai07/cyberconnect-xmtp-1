@@ -1,6 +1,6 @@
 {
-  "name": "cyber-connect-eth-1",
-  "version": "1.0.0",
+  "name": "cyber-connect-widget",
+  "version": "0.0.1",
   "private": false,
   "dependencies": {
     "@apollo/client": "^3.6.5",

@@ -6,7 +6,7 @@ import { GraphContextProvider } from "./context/GraphContext";
 import { Web3ContextProvider } from "./context/web3Context";
 import client from "./graphql/client";
 
-function App({ themeMode }: { themeMode: string }) {
+function App({ themeMode }: { themeMode?: string }) {
     const theme = extendTheme({
         config: {
             initialColorMode: themeMode || "dark",
