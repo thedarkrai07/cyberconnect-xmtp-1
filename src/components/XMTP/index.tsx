@@ -1,5 +1,5 @@
 import { Stack, Text } from "@chakra-ui/react";
-import { useCallback, useRef } from "react";
+import { useRef } from "react";
 import { RiErrorWarningFill } from "react-icons/ri";
 import useConversation from "../../hooks/useConversation";
 import useXmtp from "../../hooks/useXmtp";
@@ -13,15 +13,9 @@ const Conversation = ({
 }) => {
     const { walletAddress, client } = useXmtp();
     const messagesEndRef = useRef(null);
-    const scrollToMessagesEndRef = useCallback(() => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (messagesEndRef.current as any)?.scrollIntoView({ behavior: "smooth" });
-    }, [messagesEndRef]);
 
-    const { messages, sendMessage, loading, error } = useConversation(
-        recipientWalletAddr,
-        scrollToMessagesEndRef
-    );
+    const { messages, sendMessage, loading, error } =
+        useConversation(recipientWalletAddr);
 
     if (!recipientWalletAddr || !walletAddress || !client) {
         return <div />;

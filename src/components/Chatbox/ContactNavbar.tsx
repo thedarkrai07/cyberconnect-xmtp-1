@@ -1,4 +1,4 @@
-import { Spacer, Text } from "@chakra-ui/react";
+import { Spacer, Stack, Text, useColorMode } from "@chakra-ui/react";
 import { useCallback } from "react";
 import { BiMessageSquareAdd } from "react-icons/bi";
 import {
@@ -15,6 +15,7 @@ import styles from "./index.module.css";
 interface ContactNavbarInterface {}
 
 const ContactNavbar: React.FC<ContactNavbarInterface> = () => {
+    const { colorMode } = useColorMode();
     const {
         isOpen,
         setIsOpen,
@@ -55,18 +56,28 @@ const ContactNavbar: React.FC<ContactNavbarInterface> = () => {
     );
 
     return (
-        <div className={styles.flexbox} onClick={handleClick}>
-            {conversationWith.address && <IoMdArrowRoundBack onClick={goBack} />}
-            <Text pl={conversationWith.address ? 3 : 0}>
-                {conversationWith.address
-                    ? conversationWith.ens || formatAddress(conversationWith.address)
-                    : "Messages"}
-            </Text>
-            <Spacer />
-            <div className={styles.actions}>
-                {graphAddress && <BiMessageSquareAdd onClick={openModal} />}
-                <NavChevron />
-            </div>
+        <div onClick={handleClick}>
+            <Stack
+                direction={"row"}
+                className={`${styles.flexbox} ${
+                    colorMode === "dark" ? styles.darkmode : styles.lightmode
+                }`}
+            >
+                {conversationWith.address && (
+                    <IoMdArrowRoundBack onClick={goBack} />
+                )}
+                <Text pl={conversationWith.address ? 3 : 0}>
+                    {conversationWith.address
+                        ? conversationWith.ens ||
+                          formatAddress(conversationWith.address)
+                        : "Messages"}
+                </Text>
+                <Spacer />
+                <div className={styles.actions}>
+                    {graphAddress && <BiMessageSquareAdd onClick={openModal} />}
+                    <NavChevron />
+                </div>
+            </Stack>
         </div>
     );
 };

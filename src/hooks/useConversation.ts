@@ -52,6 +52,8 @@ const useConversation = (
       }
 
       if (onMessageCallback) {
+        console.log( "callback called 1");
+
         onMessageCallback()
       }
       setLoading(false)
@@ -73,6 +75,8 @@ const useConversation = (
         }
 
         if (onMessageCallback) {
+        console.log( "callback called 2");
+
           onMessageCallback()
         }
       }

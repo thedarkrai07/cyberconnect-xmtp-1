@@ -11,7 +11,7 @@ export const Chatbox: React.FC = () => {
     const { disconnectWallet } = useWeb3();
 
     useEffect(() => {
-        // window.ethereum.on("accountsChanged", disconnectWallet);
+        window.ethereum.on("accountsChanged", disconnectWallet);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 

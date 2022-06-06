@@ -5,11 +5,10 @@ import XmtpProvider from "./components/XMTP/XmtpProvider";
 import { GraphContextProvider } from "./context/GraphContext";
 import { Web3ContextProvider } from "./context/web3Context";
 import client from "./graphql/client";
-import WebsitePlaceholder from "./WebsitePlaceholder";
 
 const theme = extendTheme({
     config: {
-        initialColorMode: "dark",
+        initialColorMode: "light",
         useSystemColorMode: false,
     },
     components: {
@@ -38,7 +37,6 @@ function App() {
                     <GraphContextProvider>
                         <ChakraProvider theme={theme}>
                             <Chatbox />
-                            <WebsitePlaceholder/>
                         </ChakraProvider>
                     </GraphContextProvider>
                 </Web3ContextProvider>

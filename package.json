@@ -1,7 +1,7 @@
 {
   "name": "cyber-connect-eth-1",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "private": false,
   "dependencies": {
     "@apollo/client": "^3.6.5",
     "@chakra-ui/react": "^2.1.2",

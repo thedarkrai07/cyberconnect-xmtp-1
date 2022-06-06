@@ -1,6 +1,6 @@
 //src\components\WalletConnectButton\index.tsx
 
-import { Button } from "@chakra-ui/react";
+import { Button, useColorMode } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
 import { useWeb3 } from "../../context/web3Context";
 import styles from "./index.module.css";
@@ -8,7 +8,7 @@ import styles from "./index.module.css";
 export const WalletConnectButton: React.FC = () => {
     //get user logged in wallet address/ens, get connect wallet function
     const { connectWallet, address, ens } = useWeb3();
-
+    const { colorMode } = useColorMode();
     const [loading, setLoading] = useState<boolean>(false);
 
     const connect = useCallback(async () => {
@@ -21,23 +21,21 @@ export const WalletConnectButton: React.FC = () => {
     //if user logged in, we show the logged in user's ens or edted address
     return (
         <>
-            
             {!address ? (
                 <>
                     <p>To establish connection, please connect your wallet</p>
-                    <br/>    
+                    <br />
                     <Button
-                        colorScheme='white'
-                        variant='solid'
+                        colorScheme={colorMode === "dark" ? "white" : "black"}
+                        variant="solid"
                         isLoading={loading}
                         disabled={loading}
                         onClick={connect}
-                        className={styles.connectWalletButton}
-                        sx={{
-                            "& .MuiLoadingButton-loadingIndicator": {
-                                color: "#000",
-                            },
-                        }}
+                        className={`${styles.connectWalletButton} ${
+                            colorMode === "dark"
+                                ? styles.darkButton
+                                : styles.lightButton
+                        }`}
                     >
                         Connect Wallet
                     </Button>

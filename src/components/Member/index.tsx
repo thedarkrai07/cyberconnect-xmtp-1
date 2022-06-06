@@ -53,6 +53,7 @@ const Member = ({
                         target="_blank"
                         fontSize={"sm"}
                         color="gray.500"
+                        onClick={(e) => e.stopPropagation()}
                     >
                         Etherscan
                     </Link>
@@ -61,6 +62,7 @@ const Member = ({
                         target="_blank"
                         fontSize={"sm"}
                         color="gray.500"
+                        onClick={(e) => e.stopPropagation()}
                     >
                         NFTs
                     </Link>

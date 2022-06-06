@@ -1,6 +1,6 @@
 import { Flex, Stack, Text } from "@chakra-ui/react";
 import { Message } from "@xmtp/xmtp-js";
-import React, { MutableRefObject } from "react";
+import React, { MutableRefObject, useEffect } from "react";
 import Emoji from "react-emoji-render";
 import { formatTime } from "../../../helpers";
 import AddressPill from "../AddressPill";
@@ -90,6 +90,10 @@ const MessagesList = ({
 }: MessageListProps): JSX.Element => {
     let lastMessageDate: Date | undefined;
 
+    useEffect(() => {
+        (messagesEndRef.current as any)?.scrollIntoView({ behavior: "smooth" });
+    }, [messages, messagesEndRef]);
+
     return (
         <Stack w={"100%"} p={2}>
             {messages && messages.length ? (
@@ -110,7 +114,7 @@ const MessagesList = ({
                     ? [<DateDivider date={msg.sent} key={msg.id} />, tile]
                     : tile;
             })}
-            <div ref={messagesEndRef} />
+            <div ref={messagesEndRef} className="okay"/>
         </Stack>
     );
 };

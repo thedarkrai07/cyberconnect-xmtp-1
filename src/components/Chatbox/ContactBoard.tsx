@@ -1,4 +1,4 @@
-import { Spacer, Stack } from "@chakra-ui/react";
+import { Spacer, Stack, useColorMode } from "@chakra-ui/react";
 import { getAddress } from "ethers/lib/utils";
 import { useNavStates } from "../../context/ChatContext";
 import { useGraph } from "../../context/GraphContext";
@@ -24,17 +24,15 @@ const ContactBoard: React.FC<Props> = () => {
         friendList,
         showMutualConnections,
         showXMTPConnects,
-        followerList,
     } = useGraph();
 
-    const friendArrList = friendList.map(m =>  m.address );
-    const followingArrList = followingList.map(m =>  m.address );
-    console.log("Your followers:", followerList);
+    const { colorMode } = useColorMode();
+
     const connections = showXMTPConnects
         ? conversationsToConnection(conversations)
         : showMutualConnections
-        ? conversationsToConnection(conversations).filter((c) => friendArrList.includes(c.address.toLocaleLowerCase()))
-        : conversationsToConnection(conversations).filter((c) => followingArrList.includes(c.address.toLocaleLowerCase()));
+        ? conversationsToConnection(conversations, friendList)
+        : conversationsToConnection(conversations, followingList);
 
     const justifyContent =
         !conversationWith.address && connections.length > 0
@@ -48,7 +46,7 @@ const ContactBoard: React.FC<Props> = () => {
             height={"400px"}
             align="center"
             justifyContent={justifyContent}
-            bg="gray.900"
+            bg={colorMode === 'dark' ? "gray.900" : "gray.100"}
             overflow={"scroll"}
         >
             {!graphAddress && <WalletConnectButton />}
@@ -58,10 +56,15 @@ const ContactBoard: React.FC<Props> = () => {
             )}
             {!conversationWith.address &&
                 connections.map((m) => (
-                    <Member connection={m as SocialConnection} key={m.address} />
+                    <Member
+                        connection={m as SocialConnection}
+                        key={m.address}
+                    />
                 ))}
             {conversationWith.address && (
-                <Conversation recipientWalletAddr={getAddress(conversationWith.address)} />
+                <Conversation
+                    recipientWalletAddr={getAddress(conversationWith.address)}
+                />
             )}
             {graphAddress && !graphLoading && followingList.length && (
                 <Spacer />
